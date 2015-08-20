@@ -1,0 +1,20 @@
+[ req ]
+prompt = no
+default_bits = 4096
+default_keyfile = /etc/ssl/private/key.pem
+encrypt_key = no
+distinguished_name = req_distinguished_name
+default_md = sha256
+ 
+string_mask = utf8only
+ 
+req_extensions = v3_req
+ 
+[ req_distinguished_name ]
+commonName={{ inventory_hostname }}
+ 
+[ v3_req ]
+ 
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+

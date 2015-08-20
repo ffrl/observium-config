@@ -1,0 +1,20 @@
+---
+# tasks file for openssl
+
+- name: installing openssl package
+  action: "{{ ansible_pkg_mgr }}  name=openssl state=installed"
+
+- name: configuring openssl
+  template: src=openssl.cnf.j2 dest=/etc/ssl/openssl.cnf backup=yes
+
+- name: creating private directory
+  file: dest=/etc/ssl/private state=directory mode=0700 owner=root group=root
+
+- name: generating dh parameters file
+  command: openssl dhparam -out /etc/ssl/dhparams.pem 2048 creates=/etc/ssl/dhparams.pem
+
+- name: generating private key file
+  command: openssl genpkey -algorithm RSA -out /etc/ssl/private/key.pem creates=/etc/ssl/private/key.pem
+
+- name: generating certificate request
+  command: openssl req -new -out /tmp/request.pem creates=/tmp/request.pem
